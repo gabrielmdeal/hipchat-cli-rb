@@ -16,10 +16,11 @@ module HipChatCli
       @help
     end
 
-    def parse_options(app:, argv:)
+    def parse_options(argv)
       options = {
         username: ENV['HIPCHAT_API_USERNAME'] || "API Client",
-        token: ENV['HIPCHAT_API_TOKEN'] || nil
+        token1: ENV['HIPCHAT_API_TOKEN'] || nil,
+        token2: ENV['HIPCHAT_API_V2_TOKEN'] || nil
       }
 
       parser = OptionParser.new
@@ -27,8 +28,12 @@ module HipChatCli
       parser.separator  ""
       parser.separator  "Options"
 
-      parser.on("-t","--token API_TOKEN","[required] The API token for HipChat") do |token|
-        options[:token] = token
+      parser.on("-t","--token V1_API_TOKEN","[required] The v1 API token for HipChat") do |token|
+        options[:token1] = token
+      end
+
+      parser.on("-T","--token-v2 V2_API_TOKEN","[required] The v2 API token for HipChat") do |token|
+        options[:token2] = token
       end
 
       parser.on("-u","--user USERNAME","The name of the sender. Default: API Client") do |username|

@@ -4,7 +4,7 @@ module HipChatCli
   class Message
     def initialize(params)
 
-      %w(token room).each do |key|
+      %w(room).each do |key|
         raise OptionParser::MissingArgument, "#{key} is a required option" if params[key.to_sym].nil?
       end
 
@@ -14,7 +14,9 @@ module HipChatCli
       @color    = params[:color]    || 'yellow'
       @username = params[:username] || 'API'
 
-      @client = HipChat::Client.new(params[:token])
+      @client = HipChat::Client.new(params[:token1]) if params[:token1]
+      @client = HipChat::Client.new(params[:token2], :api_version => 'v2') if params[:token2]
+      raise OptionParser::MissingArgument, "Missing token options" unless @client
     end
 
     def deliver(message)
