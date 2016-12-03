@@ -1,7 +1,7 @@
 module HipChatCli
   class Application
     def initialize(args)
-      @options, @msg = parse_options(args)
+      @options = parse_options(args)
     end
 
     def run
@@ -49,10 +49,9 @@ module HipChatCli
 
       @help = parser.to_s
 
-      message = parser.parse(argv).join(' ')
-      message = STDIN.read if message.nil? || message == ""
+      options[:unparsed_args] = parser.parse(argv)
 
-      [options, message]
+      options
     end
   end
 end

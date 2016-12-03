@@ -2,10 +2,13 @@ module HipChatCli
   class NotifyApplication < Application
     def initialize(argv)
       super(argv)
+
+      @message = @options[:unparsed_args].join(' ')
+      @message = STDIN.read if @message.nil? || @message == ""
     end
 
     def run
-      HipChatCli::Message.new(@options).deliver(@msg)
+      HipChatCli::Message.new(@options).deliver(@message)
     end
 
     def parse_application_specific_options(parser, options)
