@@ -5,12 +5,20 @@ module HipChatCli
     end
 
     def run
-      HipChatCli::UpdateUser.new(@options).update(@options[:user])
+      new_user_values = @options.delete(:new_user_values)
+      HipChatCli::UpdateUser.new(@options).update(new_user_values)
     end
 
     def parse_application_specific_options(parser, options)
-      parser.on("--new-status", "The new user status to set (away, chat, dnd).") do |new_status|
-        options[:user][:new_status] = new_status
+      options[:new_user_values] = {
+        presence: {}
+      }
+
+      parser.on("--new-status-code STATUS_CODE", "The new user status (away, chat, dnd, xa).") do |value|
+        options[:new_user_values][:presence][:show] = value
+      end
+      parser.on("--new-status-message STATUS_MESSAGE", "The new status message.") do |value|
+        options[:new_user_values][:presence][:status] = value
       end
     end
   end

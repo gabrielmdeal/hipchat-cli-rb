@@ -3,7 +3,6 @@ require 'hipchat'
 module HipChatCli
   class UpdateUser
     def initialize(params)
-
       [:username].each do |key|
         raise OptionParser::MissingArgument, "#{key} is a required option" if params[key].nil?
       end
@@ -15,10 +14,38 @@ module HipChatCli
       raise OptionParser::MissingArgument, "Missing token options" unless @client
     end
 
-    def update(new_fields)
-      user = @client.user(@username).view
+    def update(new_attrs)
+      new_attrs ||= {}
+      new_presence = new_attrs.delete(:presence) || {}
+      raise OptionParser::MissingArgument, "Not given any fields to update" if new_attrs.empty? && new_presence.empty?
 
-      require 'pp'; pp user
+      user = to_hash(@client.user(@username).view)
+      user.merge!(new_attrs)
+      user[:presence].merge!(new_presence)
+
+      @client.user(@username).update(user)
+    end
+
+    def to_hash(user)
+      # https://www.hipchat.com/docs/apiv2/method/update_user
+      attr_names = [
+        :name,
+        :roles,
+        :title,
+        :mention_name,
+        :is_group_admin,
+        :timezone,
+        # :password - can update, but can't view.
+        :email
+      ]
+
+      user_hash = Hash[attr_names.map { |attr_name| [attr_name, user.method(attr_name).call] }]
+      user_hash[:presence] = {
+        show: user.presence[:show],
+        status: user.presence[:status]
+      }
+
+      user_hash
     end
   end
 end

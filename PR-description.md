@@ -8,3 +8,5 @@ Get rid of V1 API support?
 * Notify with message in STDIN
 * v1 token
 * v2 token
+* Updating the status message
+
