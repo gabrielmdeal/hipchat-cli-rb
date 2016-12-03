@@ -1,22 +1,25 @@
 PATH
   remote: .
   specs:
-    hipchat-cli (0.0.1)
+    hipchat-cli (0.1.0)
       hipchat
 
 GEM
   remote: https://rubygems.org/
   specs:
-    hipchat (0.11.0)
+    hipchat (1.5.4)
       httparty
-    httparty (0.11.0)
-      multi_json (~> 1.0)
+      mimemagic
+    httparty (0.14.0)
       multi_xml (>= 0.5.2)
-    multi_json (1.7.7)
-    multi_xml (0.5.4)
+    mimemagic (0.3.2)
+    multi_xml (0.5.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   hipchat-cli!
+
+BUNDLED WITH
+   1.13.6

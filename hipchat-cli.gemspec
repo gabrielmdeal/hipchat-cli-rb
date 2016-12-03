@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.executables = ["hipchat_notify"]
   s.add_dependency('hipchat')
-  s.required_ruby_version = ">= 1.9.2"
+  s.required_ruby_version = ">= 1.9.3"
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project = "hipchat_cli"
 end

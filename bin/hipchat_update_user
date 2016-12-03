@@ -3,11 +3,12 @@
 require_relative "../lib/hip_chat_cli"
 
 begin
-  HipChatCli::NotifyApplication.new(ARGV).run
+  app = 'hipchat_update_user'
+  HipChatCli::Application.create_update_user(ARGV).run
 rescue Errno::ENOENT => err
   abort "hip_chat_cli: #{err.message}"
 rescue OptionParser::MissingArgument => err
-  abort "hip_chat_cli: #{err.message}\nusage: hipchat_notify -h"
+  abort "hip_chat_cli: #{err.message}\nusage: #{app} -h"
 rescue OptionParser::InvalidOption => err
-  abort "hip_chat_cli: #{err.message}\nusage: hipchat_notify -h"
+  abort "hip_chat_cli: #{err.message}\nusage: #{app} -h"
 end
