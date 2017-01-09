@@ -40,10 +40,11 @@ module HipChatCli
       ]
 
       user_hash = Hash[attr_names.map { |attr_name| [attr_name, user.method(attr_name).call] }]
-      user_hash[:presence] = {
-        show: user.presence[:show],
-        status: user.presence[:status]
-      }
+      user_hash[:presence] = {}
+      if user.presence
+        user_hash[:presence][:show] = user.presence[:show]
+        user_hash[:presence][:status] = user.presence[:status]
+      end
 
       user_hash
     end
